@@ -5,6 +5,17 @@ import NavBar from './components/NavBar';
 
 class App extends Component {
 
+  constructor() {
+    super();
+    console.log('App - Constructor');
+    // this.state = this.props.something;
+  }
+
+  // componentDidMount() {
+  //   //ajax call 
+  //   console.log('App - Mounted')
+  // }
+
   state = {
     counters: [
       { id: 1, value: 0 },
@@ -42,7 +53,21 @@ class App extends Component {
     this.setState({ counters });
   };
 
+  handleDecrement = (counter) => {
+    console.log("Decrement button pressed");
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    //counters[index].value > 0 ? counters[index].value-- : 0;
+    if(counters[index].value > 0) {
+      counters[index].value--;
+    }
+    
+    this.setState({counters})
+  }
+
   render() {
+    //console.log('App - rendered');
     return (
       <div className="App">
         <NavBar totalCounters={this.state.counters.filter(c => c.value > 0).length} />
@@ -51,6 +76,7 @@ class App extends Component {
           counters={this.state.counters} 
           onReset={this.handleReset} 
           onIncrement={this.handleIncrement} 
+          onDecrement={this.handleDecrement}
           onDelete={this.handleDelete} />
         </main>
       </div>

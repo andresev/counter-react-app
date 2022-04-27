@@ -1,54 +1,64 @@
 import React, { Component } from "react";
 
-class Counter extends Component {
-  // state = {
-  //   value: this.props.counter.value,
-  // };
+//stateless component
 
-  styles = {
-    fontSize: 30,
-  };
+const Counter = ({ onIncrement, onDecrement, onDelete, counterState }) => {
+  //console.log("Counter - rendered");
 
-  formatCount() {
-    const { value: value } = this.props.counter;
-    return value === 0 ? "Zero" : value;
+  function formatCount() {
+    const { value: value } = counterState;
+    return value === 0 ? "0" : value;
   }
 
-  getBadgeClasses() {
+  function getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.props.counter.value === 0 ? "warning" : "primary";
+    classes += counterState.value === 0 ? "warning" : "primary";
     return classes;
   }
 
-  // handleIncrement = (product) => {
-  //   console.log(product);
-  //   this.setState({
-  //     value: this.state.value + 1,
-  //   });
-  // };
+  const styles = {
+    fontSize: 30,
+  };
 
-  render() {
-    return (
-      <div>
-        <h4>Counter #{this.props.counter.id}</h4>
-        <span style={this.styles} className={this.getBadgeClasses()}>
-          {this.formatCount()}
-        </span>
-        <button
-          onClick={() => this.props.onIncrement(this.props.counter)}
-          className="btn btn-secondary"
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => this.props.onDelete(this.props.counter.id)}
-          className="btn btn-danger btn-sm m-1"
-        >
-          Delete
-        </button>
+  return (
+    <div>
+      <h4>Counter #{counterState.id}</h4>
+      <div className="container">
+        <div className="row align-items-center justify-content-center">
+          <div className="col-xs">
+            <span style={styles} className={getBadgeClasses()}>
+              {formatCount()}
+            </span>
+          </div>
+          <div className="col-xs">
+            <button
+              onClick={() => onIncrement(counterState)}
+              className="btn btn-secondary m-1"
+            >
+              +
+            </button>
+          </div>
+          <div className="col-xs">
+            <button
+              onClick={() => onDecrement(counterState)}
+              className="btn btn-secondary m-1"
+              disabled={counterState.value === 0 ? "disabled" : ""}
+            >
+              -
+            </button>
+          </div>
+          <div className="col-xs">
+            <button
+              onClick={() => onDelete(counterState.id)}
+              className="btn btn-danger m-1"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Counter;
